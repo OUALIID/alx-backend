@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-A function called Index_range takes two integer arguments page and page_size
+A function named index_range takes two integer arguments page and page_size
 """
 
 
