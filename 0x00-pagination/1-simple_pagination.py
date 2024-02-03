@@ -11,6 +11,24 @@ import requests
 from typing import List
 
 
+def index_range(page, page_size):
+    """
+    Returns a tuple of integers representing the range of indices
+    for a given page size.
+    Args:
+    page (int): The current page number.
+    page_size (int): The number of items to display on each page.
+    """
+    if page == 1:
+        start_index = 0
+    else:
+        start_index = (page - 1) * page_size
+
+    end_index = start_index + page_size
+
+    return start_index, end_index
+
+
 class Server:
     """Server class to paginate a database of popular baby names.
     """
@@ -34,32 +52,8 @@ class Server:
         """
         Returns a specific page from the dataset. The first page is 1.
         """
-        csv_url = "https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/misc/2020/5/7d3576d97e7560ae85135cc214ffe2b3412c51d7.csv?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D%2F20240203%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240203T194824Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=1e620cb42f7b049b2a5ec0173844ece04cf38144b2326e654b8b7bb60f68757c"
-
-        response = requests.get(csv_url).text
-        with open('Popular_Baby_Names.csv', 'a') as file:
-            file.write(response)
-
         assert isinstance(page and page_size, int)
         assert page > 0 and page_size > 0
-
+        start_index, end_index = index_range(page, page_size)
         dataset = self.dataset()
-        start_index, end_index = self.index_range(page, page_size)
         return dataset[start_index:end_index]
-
-    def index_range(self, page, page_size):
-        """
-        Returns a tuple of integers representing the range of indices
-        for a given page size.
-        Args:
-        page (int): The current page number.
-        page_size (int): The number of items to display on each page.
-        """
-        if page == 1:
-            start_index = 0
-        else:
-            start_index = (page - 1) * page_size
-
-        end_index = start_index + page_size
-
-        return start_index, end_index
