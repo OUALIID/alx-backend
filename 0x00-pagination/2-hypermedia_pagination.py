@@ -66,8 +66,8 @@ class Server:
         start_index, end_index = index_range(page, page_size)
         return {
             "page_size": 0 if len(self.dataset()) <= end_index else page_size,
-            "page":page,
-            "data":self.dataset()[start_index:end_index],
+            "page": page,
+            "data": self.dataset()[start_index:end_index],
             "next_page": None if end_index > len(self.dataset()) else page + 1,
             "prev_page": None if page <= 1 else page - 1,
             "total_pages": len(self.dataset())
