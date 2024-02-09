@@ -50,5 +50,7 @@ class Server:
             "index": index,
             "data": self.dataset()[start_index:end_index],
             "page_size": page_size,
-            "next_index": index + 1
+            "next_index": None
+            if end_index > len(self.dataset())
+            else index + 1
         }
