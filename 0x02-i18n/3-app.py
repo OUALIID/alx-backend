@@ -2,10 +2,9 @@
 """ A basic Flask application with one path and an HTML template. """
 from flask import Flask, render_template, request
 from flask_babel import Babel
-from flask_babel import _
 
 
-class Config():
+class Config(object):
     """ Configuration class for the Flask app. """
     LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
@@ -18,15 +17,15 @@ app.config.from_object(Config)
 
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     """ Determine the locale for this user."""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
-def index():
+def index() -> str:
     """ Returns Hello world """
-    return render_template('3-index.html', title=_('title'), header=_('header'))
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
