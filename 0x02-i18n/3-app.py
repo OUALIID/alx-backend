@@ -1,33 +1,38 @@
 #!/usr/bin/env python3
-""" A basic Flask application with one path and an HTML template. """
-from flask import Flask, render_template, request
+""" Route module for the API """
+from flask import Flask, render_template
 from flask_babel import Babel
-
-
-class Config:
-    """ Configuration class for the Flask app. """
-
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
-
 
 app = Flask(__name__)
 babel = Babel(app)
-app.config.from_object(Config)
+
+
+class Config(object):
+    """ Available languages class """
+    LANGUAGES = ['en', 'fr']
+    # these are the inherent defaults just btw
+    BABEL_DEFAULT_LOCALE = 'en'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
+
+
+# set the above class object as the configuration for the app
+app.config.from_object('1-app.Config')
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def index() -> str:
+    """ GET /
+    Return:
+      - 1-index.html
+    """
+    return render_template('3-index.html')
 
 
 @babel.localeselector
 def get_locale() -> str:
-    """ Determine the locale for this user."""
+    """ Determines best match for supported languages """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
-@app.route('/')
-def index() -> str:
-    """ Returns Hello world """
-    return render_template('3-index.html')
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port="5000")
