@@ -23,6 +23,8 @@ class LRUCache(BaseCaching):
                 print("DISCARD:", lru_key)
             self.cache_data[key] = item
             self.cache_order.append(key)
+        else:
+            return None
 
     def get(self, key):
         """ Retrieve an item from the cache. """
