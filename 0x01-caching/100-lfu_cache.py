@@ -29,7 +29,5 @@ class LFUCache(BaseCaching):
     def get(self, key):
         """ Retrieve an item from the cache. """
         if key in self.cache_data:
-            self.lfu_cache.remove(key)
-            self.lfu_cache.append(key)
             return self.cache_data[key]
         return None
