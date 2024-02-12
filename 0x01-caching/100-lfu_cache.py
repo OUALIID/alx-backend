@@ -18,9 +18,9 @@ class LFUCache(BaseCaching):
             if key in self.cache_data:
                 self.lfu_cache.remove(key)
             elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                lru_key = self.lfu_cache.pop(0)
-                del self.cache_data[lru_key]
-                print("DISCARD:", lru_key)
+                lfu_cache = self.lfu_cache.pop(0)
+                del self.cache_data[lfu_cache]
+                print("DISCARD:", lfu_cache)
             self.cache_data[key] = item
             self.lfu_cache.append(key)
         else:
