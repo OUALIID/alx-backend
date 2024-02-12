@@ -30,5 +30,6 @@ class LRUCache(BaseCaching):
         """ Retrieve an item from the cache. """
         if key in self.cache_data:
             self.cache_order.remove(key)
+            self.cache_order.append(key)
             return self.cache_data[key]
         return None
