@@ -29,5 +29,6 @@ class LRUCache(BaseCaching):
     def get(self, key):
         """ Retrieve an item from the cache. """
         if key in self.cache_data:
+            self.cache_order.remove(key)
             return self.cache_data[key]
         return None
