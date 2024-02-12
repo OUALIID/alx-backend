@@ -30,4 +30,4 @@ class LFUCache(BaseCaching):
         """ Retrieve an item from the cache. """
         if key in self.cache_data:
             return self.cache_data[key]
-        return key
+        return None
