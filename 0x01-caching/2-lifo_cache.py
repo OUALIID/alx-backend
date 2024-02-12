@@ -22,8 +22,8 @@ class LIFOCache(BaseCaching):
             self.cache_data[key] = item
             self.cache_order.append(key)
 
-        def get(self, key):
-            """ Retrieve an item from the cache. """
-            if key is None or key not in self.cache_data:
-                return None
+    def get(self, key):
+        """ Retrieve an item from the cache. """
+        if key in self.cache_data:
             return self.cache_data[key]
+        return None
