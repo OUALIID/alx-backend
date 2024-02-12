@@ -10,7 +10,7 @@ class LFUCache(BaseCaching):
     def __init__(self):
         """ Initialize a new LFUCache. """
         super().__init__()
-        self.lfu_cache = []
+        self.lfu_cache = {}
 
     def put(self, key, item):
         """ Add an item to the cache. """
