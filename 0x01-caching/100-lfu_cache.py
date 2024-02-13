@@ -21,7 +21,6 @@ class LFUCache(BaseCaching):
                 self.lfu_cache[key] += 1
                 self.cache_data[key] = item
             elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                least = None
                 least_count = float('inf')
                 for k, v in self.lfu_cache.items():
                     if v < least_count:
