@@ -18,18 +18,14 @@ class LFUCache(BaseCaching):
         """
         if key and item is not None:
             if key in self.cache_data:
-                self.lfu_cache[key] += 1
                 self.cache_data[key] = item
-            elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                least_count = float('inf')
-                for k, v in self.lfu_cache.items():
-                    if v < least_count:
-                        least = k
-                        least_count = v
-                print("DISCARD:", least)
-                del self.cache_data[least]
-                del self.lfu_cache[least]
-
+                self.lfu_cache[key] += 1
+            else:
+                if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+                    least_used_key = min(self.lfu_cache, key=self.lfu_cache.get)
+                    print("DISCARD:", least_used_key)
+                    del self.cache_data[least_used_key]
+                    del self.lfu_cache[least_used_key]
             self.lfu_cache[key] = 0
             self.cache_data[key] = item
         else:
