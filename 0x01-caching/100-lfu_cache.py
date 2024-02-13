@@ -14,13 +14,14 @@ class LFUCache(BaseCaching):
 
     def put(self, key, item):
         """ Add an item to the cache. """
-        if key is not None and item is not None:
+        if key and item is not None:
             if key in self.cache_data:
                 self.lfu_cache.remove(key)
             elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                lfu_cache = self.lfu_cache.pop(0)
-                del self.cache_data[lfu_cache]
-                print("DISCARD:", lfu_cache)
+                lfu_key = min(self.lfu_cache, key=lambda k: self.cache_data[k])
+                self.cache_data.pop(lfu_key)
+                print("DISCARD:", lfu_key)
+                self.lfu_cache.remove(lfu_key)
             self.cache_data[key] = item
             self.lfu_cache.append(key)
         else:
