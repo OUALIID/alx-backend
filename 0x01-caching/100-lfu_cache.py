@@ -10,27 +10,37 @@ class LFUCache(BaseCaching):
     def __init__(self):
         """ Initialize a new LFUCache. """
         super().__init__()
-        self.lfu_cache = []
+        self.lfu_cache = {}
 
     def put(self, key, item):
-        """ Add an item to the cache. """
+        """
+        Add an item to the cache, and remove the least used item.
+        """
         if key and item is not None:
             if key in self.cache_data:
-                self.lfu_cache.remove(key)
-            elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-                lfu_key = min(self.lfu_cache, key=lambda k: self.cache_data[k])
-                if lfu_key in self.cache_data:
-                    self.cache_data.pop(lfu_key)
-                    print("DISCARD:", lfu_key)
-                    self.lfu_cache.remove(lfu_key)
-            self.cache_data[key] = item
-            self.lfu_cache.append(key)
-        else:
-            return None
+                self.lfu_cache[key] += 1
+                self.cache_data[key] = item
+                return
 
+            elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+                least = None
+                least_count = float('inf')
+                for k, v in self.lfu_cache.items():
+                    if v < least_count:
+                        least = k
+                        least_count = v
+                print("DISCARD:", least)
+                del self.cache_data[least]
+                del self.lfu_cache[least]
+
+            self.lfu_cache[key] = 0
+            self.cache_data[key] = item
+        else:
+            return
 
     def get(self, key):
         """ Retrieve an item from the cache. """
         if key in self.cache_data:
+            self.lfu_cache[key] += 1
             return self.cache_data[key]
         return None
