@@ -19,13 +19,15 @@ class LFUCache(BaseCaching):
                 self.lfu_cache.remove(key)
             elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
                 lfu_key = min(self.lfu_cache, key=lambda k: self.cache_data[k])
-                self.cache_data.pop(lfu_key)
-                print("DISCARD:", lfu_key)
-                self.lfu_cache.remove(lfu_key)
+                if lfu_key in self.cache_data:
+                    self.cache_data.pop(lfu_key)
+                    print("DISCARD:", lfu_key)
+                    self.lfu_cache.remove(lfu_key)
             self.cache_data[key] = item
             self.lfu_cache.append(key)
         else:
             return None
+
 
     def get(self, key):
         """ Retrieve an item from the cache. """
