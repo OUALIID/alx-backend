@@ -1,4 +1,4 @@
-## Issue with Babel and Jinja2 Extensions
+<h2>1. Issue with Babel and Jinja2 Extensions</h2>
 
 If you encounter an AttributeError related to Jinja2 extensions when using Babel's `pybabel extract` command, such as:
 
@@ -40,3 +40,35 @@ pip install Jinja2==3.0.3
 ```
 
 After downgrading Jinja2, try running the `pybabel extract` command again, and the issue should be resolved. This solution ensures compatibility between Jinja2 and Babel extensions, allowing for smooth extraction of messages.
+
+
+---
+
+
+<h2>2. Troubleshooting AttributeError with Babel's Localeselector</h2>
+ 
+If you encounter an AttributeError related to Babel's `localeselector` when using Babel's functionality, such as:
+
+```
+Traceback (most recent call last):
+    File "./2-app.py", line 19, in <module>
+      @babel.localeselector
+AttributeError: 'Babel' object has no attribute 'localeselector'
+```
+
+The issue may be caused by an incompatible version of Flask-Babel.
+
+*How to Check the Version:*
+To check the version of Flask-Babel, you can use the following command:
+```bash
+pip show flask_babel
+```
+
+*Resolution:*
+To resolve this issue, downgrade Flask-Babel to a version known to be compatible. You can do this by running:
+
+```bash
+pip install flask_babel==2.0.0
+```
+
+After downgrading Flask-Babel, try running your code again to verify if the issue has been resolved. This solution ensures compatibility between Flask and Babel extensions, allowing seamless message extraction.
